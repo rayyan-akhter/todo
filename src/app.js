@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import deleteIcon from "./assets/delete.png";
+import editIcon from "./assets/edit.png";
 export const App = () => {
   return (
     <>
@@ -13,54 +14,89 @@ const TodoList = () => {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
 
+  console.log(todos);
+
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
 
   const addTodo = (e) => {
-    // e.preventDefault();
-    setTodos([...todos, input]);
-    setInput("");
-  };
-
-  const handlekeyPress =(e)=>{
-    if(e.key==="Enter") {
-        addTodo();
+    e.preventDefault();
+    if (input === "") {
+      return alert("Enter something to do...");
+    } else {
+      const allInput = { id: new Date().getTime().toString(), name: input };
+      setTodos([...todos, allInput]);
+      setInput("");
     }
   };
 
-  const deleteTodo =(index)=>{
-    const updateTodo =todos.filter((_,item)=> item !== index);
+  const deleteTodo = (index) => {
+    const updateTodo = todos.filter((_, item) => item !== index);
     setTodos(updateTodo);
-    
   };
 
   return (
     <main>
-      <div className="child">
-        
+      <form className="child" onSubmit={addTodo}>
         <input
           type="text"
           value={input}
           onChange={handleInputChange}
-          onKeyDown={handlekeyPress}
           className="inputFeild"
           placeholder="Text here"
-          />
-        <button onClick={addTodo} className="addBtn" >+</button>
-          
-        
-      </div>
+        />
+
+        <button className="addBtn">Add</button>
+      </form>
       <div className="secondChild">
         <ul className="todoList">
-          {todos.map((todo, index) => (
-            <li className="todo" key={index}>{todo}
-            <img src={deleteIcon} alt="delete icon" className="dltIcon" onClick={() => deleteTodo(index)}/>
-            </li>
-    
+          <h1>TODAY</h1>
+          {todos.map((todo, idx, id) => (
+            <Todo todos={todos} deleteTodo={deleteTodo} todo={todo} idx={id} />
           ))}
         </ul>
       </div>
     </main>
   );
 };
+
+function Todo({ deleteTodo, todo, idx, todos }) {
+  const [editMode, setEditMode] = useState(false);
+
+  const [inputValue, setInputValue] = useState(todo.name);
+
+  const onInputChange = (e) => {
+    const newValue = e.target.value;
+    todos.name = newValue;
+    setInputValue(newValue);
+  };
+  console.log(idx);
+  return (
+    <li className="todo" key={idx}>
+      {editMode ? (
+        <input value={inputValue} onChange={onInputChange} />
+      ) : (
+        <p>{inputValue}</p>
+      )}
+      <div className="iconContainer">
+        {!editMode ? (
+          <img
+            src={editIcon}
+            alt="edit icon"
+            className="edtIcon"
+            onClick={() => setEditMode(true)}
+          />
+        ) : (
+          <button onClick={() => setEditMode(false)}>done</button>
+        )}
+        <img
+          src={deleteIcon}
+          alt="delete icon"
+          className="dltIcon"
+          onClick={() => deleteTodo(idx)}
+        />
+      </div>
+    </li>
+  );
+}

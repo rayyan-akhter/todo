@@ -1,76 +1,91 @@
-  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
 
-*{
-    margin: o;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Comic Neue', cursive;
-}
-
-main{
-    height: 100vh;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Comic Neue", cursive;
 }
 
-.child{
-    padding: 30px;
-    display: flex;
-    gap: 20px;
-    justify-content:center;
-    align-items: center;
-    
-}
-button{
-    cursor: pointer;
-}
-.addBtn{
-    height: 48px;
-    width: 45px;
-    border-radius: 25px;
-    background-color: bisque;
+main {
+  height: 100vh;
+  background-color: darkgray;
 }
 
-.inputFeild{
-    height: 50px;
-    width: 230px;
-    border-radius: 18px;
-    padding: 7px;
+.child {
+  padding: 30px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+button {
+  cursor: pointer;
+}
+.addBtn {
+  height: 48px;
+  width: 50px;
+  border-radius: 25px;
+  background-color: bisque;
 }
 
-.secondChild{
-    height: calc(100vh-107px);
-    padding: 30px;
-    display: grid;
-    place-items: center;
-   
+.inputFeild {
+  height: 50px;
+  width: 230px;
+  border-radius: 18px;
+  padding: 7px;
 }
 
-.todoList{
-    height: 100%;
-    width: 100%;
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+.secondChild {
+  height: calc(100vh-107px);
+  padding: 30px;
+  display: grid;
+  place-items: center;
 }
 
-.todo{
-    display: flex;
-    justify-content: space-between;
-    width: 50%;
-    padding-inline: 10px; 
-    border: solid gray 1px;
-    border-radius: 10px;
-    height: 40px;
-    /* justify-content: center; */
-    align-items: center;
-    padding-left: 20px;
+.todoList {
+  height: 100%;
+  width: 60%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  border-radius: 10px;
+
+  /* background-color: blanchedalmond; */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
-.dltIcon{
-    height: 20px;
-    width: 20px;
-    cursor: pointer;
+.todo {
+  display: flex;
+  justify-content:space-between;
+  width: 50%;
+  padding-inline: 10px;
+  border: solid gray 1px;
+  border-radius: 10px;
+  height: 50px;
+  align-items: center;
+  padding-left: 20px;
+  background-color: rgb(228, 225, 225);
+  overflow: hidden;
+}
+
+.dltIcon {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+.edtIcon{
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+.todoList > h1 {
+  letter-spacing: 10px;
+}
+.iconContainer{
+  display: flex;
+  gap: 10px;
 }
