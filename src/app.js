@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import deleteIcon from "./assets/delete.png";
 import editIcon from "./assets/edit.png";
+import doneIcon from "./assets/done.png";
 export const App = () => {
   return (
     <>
@@ -14,8 +15,6 @@ const TodoList = () => {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
 
-  console.log(todos);
-
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
@@ -25,16 +24,19 @@ const TodoList = () => {
     if (input === "") {
       return alert("Enter something to do...");
     } else {
-      const allInput = { id: new Date().getTime().toString(), name: input };
+      const allInput = { id: Math.random() * 1000, name: input };
+      console.log(allInput);
       setTodos([...todos, allInput]);
       setInput("");
     }
   };
 
-  const deleteTodo = (index) => {
-    const updateTodo = todos.filter((_, item) => item !== index);
+  const deleteTodo = (id) => {
+    const updateTodo = todos.filter((obj) => obj.id !== id);
     setTodos(updateTodo);
   };
+
+  console.log(todos);
 
   return (
     <main>
@@ -52,49 +54,84 @@ const TodoList = () => {
       <div className="secondChild">
         <ul className="todoList">
           <h1>TODAY</h1>
-          {todos.map((todo, idx, id) => (
-            <Todo todos={todos} deleteTodo={deleteTodo} todo={todo} idx={id} />
-          ))}
+          {todos.map((todo) => {
+            return (
+              <Todo
+                todos={todos}
+                setTodos={setTodos}
+                deleteTodo={deleteTodo}
+                todo={todo}
+                key={todo.id}
+              />
+            );
+          })}
         </ul>
       </div>
     </main>
   );
 };
 
-function Todo({ deleteTodo, todo, idx, todos }) {
+function Todo({ deleteTodo, todo, todos, setTodos }) {
   const [editMode, setEditMode] = useState(false);
-
   const [inputValue, setInputValue] = useState(todo.name);
+  const [done, setDone] = useState(false);
 
   const onInputChange = (e) => {
     const newValue = e.target.value;
-    todos.name = newValue;
+    // todos.name = newValue;
     setInputValue(newValue);
+    console.log(inputValue);
   };
-  console.log(idx);
+
+  const saveChanges = () => {
+    console.log(todo);
+    if (inputValue === "") {
+      deleteTodo(todo.id);
+      console.log("delete");
+    } else {
+      const updatedTodos = [...todos];
+      setDone(false);
+      const idx = todos.findIndex((obj) => obj.id === todo.id);
+      updatedTodos[idx].name = inputValue;
+      setTodos(updatedTodos);
+    }
+    setEditMode(false);
+  };
+  const toggleDone = () => {
+    setDone((prev) => !prev);
+    console.log(done);
+  };
   return (
-    <li className="todo" key={idx}>
+    <li className="todo">
       {editMode ? (
         <input value={inputValue} onChange={onInputChange} />
       ) : (
-        <p>{inputValue}</p>
+        <p className={done ? "inputValue" : ""}>{inputValue}</p>
       )}
       <div className="iconContainer">
-        {!editMode ? (
-          <img
-            src={editIcon}
-            alt="edit icon"
-            className="edtIcon"
-            onClick={() => setEditMode(true)}
-          />
-        ) : (
-          <button onClick={() => setEditMode(false)}>done</button>
+        {!done && (
+          !editMode ? (
+            <img
+              src={editIcon}
+              alt="edit icon"
+              className="icon"
+              onClick={() => setEditMode(true)}
+            />
+          ) : (
+            <button onClick={saveChanges}>done</button>
+          )
         )}
         <img
           src={deleteIcon}
           alt="delete icon"
-          className="dltIcon"
-          onClick={() => deleteTodo(idx)}
+          className="icon"
+          onClick={() => deleteTodo(todo.id)}
+        />
+        <img
+          src={doneIcon}
+          className={"icon"}
+          alt="check icon"
+          onClick={toggleDone}
         />
       </div>
     </li>
